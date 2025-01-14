@@ -1,4 +1,3 @@
-import { rainfallMotionCorrelationData } from "@/data/dummyvisuals";
 import {
   ResponsiveContainer,
   CartesianGrid,
@@ -10,8 +9,18 @@ import {
   LineChart,
 } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import apiFetch from "@/lib/fetch";
+import { useState, useEffect } from "react";
 
 export default function RainfaillMotionCorrelation() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    apiFetch.get("rainfallMotionCorrelationData").then((data) => {
+      setData(data);
+    });
+  }, []);
+
   return (
     <Card>
       <CardHeader>
@@ -19,7 +28,7 @@ export default function RainfaillMotionCorrelation() {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={rainfallMotionCorrelationData}>
+          <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="time" />
             <YAxis yAxisId="left" />

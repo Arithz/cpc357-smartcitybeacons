@@ -14,9 +14,7 @@ function App() {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    console.log(theme);
     setTheme(theme === "light" ? "dark" : "light");
-    console.log(theme);
   };
 
   return (

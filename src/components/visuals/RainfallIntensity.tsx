@@ -1,4 +1,3 @@
-import { rainfallData } from "@/data/dummyvisuals";
 import {
   ResponsiveContainer,
   CartesianGrid,
@@ -10,8 +9,18 @@ import {
   BarChart,
 } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import apiFetch from "@/lib/fetch";
+import { useState, useEffect } from "react";
 
 export default function RainfallIntensity() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    apiFetch.get("rainfallIntensityData").then((data) => {
+      setData(data);
+    });
+  }, []);
+
   return (
     <Card>
       <CardHeader>
@@ -19,7 +28,7 @@ export default function RainfallIntensity() {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={rainfallData}>
+          <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="time" />
             <YAxis />

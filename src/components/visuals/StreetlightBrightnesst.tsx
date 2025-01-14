@@ -1,4 +1,3 @@
-import { brightnessDistributionData } from "@/data/dummyvisuals";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -11,8 +10,17 @@ import {
   Line,
 } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import apiFetch from "@/lib/fetch";
+import { useState, useEffect } from "react";
 
 export default function () {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    apiFetch.get("brightnessDistributionData").then((data) => {
+      setData(data);
+    });
+  }, []);
   return (
     <Card>
       <CardHeader>
@@ -20,7 +28,7 @@ export default function () {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
-          <ComposedChart data={brightnessDistributionData}>
+          <ComposedChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
