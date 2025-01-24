@@ -19,7 +19,7 @@ export default function MotionDetectionTimeline({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Motion Count Detection</CardTitle>
+        <CardTitle>Motion Count Detected</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>

@@ -38,7 +38,6 @@ function App() {
       const url = "http://localhost:5000/data";
       const response = await fetch(url);
       const dataResponse: DataResponse[] = await response.json();
-      console.log(dataResponse);
       setData(dataResponse);
     };
 
