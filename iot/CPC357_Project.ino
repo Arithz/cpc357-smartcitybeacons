@@ -13,9 +13,9 @@ const int rainDigitalPin = 21; // Raindrop digital pin
 const int ledTiming = 10 * 1000; // LED on time in milliseconds
 
 // Define MQTT setup
-const char* WIFI_SSID = "WIFI_SSID"; // Your WiFi SSID
-const char* WIFI_PASSWORD = "WIFI_PASSWORD"; // Your WiFi password
-const char* MQTT_SERVER = "35.222.128.220"; // Your VM instance public IP address
+const char* WIFI_SSID = "A-16-8 (2.4ghz)"; // Your WiFi SSID
+const char* WIFI_PASSWORD = "Arif1234"; // Your WiFi password
+const char* MQTT_SERVER = "34.56.242.216"; // Your VM instance public IP address
 const char* MQTT_TOPIC = "iot"; // MQTT topic for subscription
 const int MQTT_PORT = 1883; // Non-TLS communication port
 char buffer[256] = ""; // Text buffer
@@ -87,7 +87,6 @@ void loop() {
 
   // Check raindrop sensor readings
   int rainDigital = digitalRead(rainDigitalPin);
-  int motion = digitalRead(pirPin);
 
   // Count active LEDs
   int activeLEDs = 0;
@@ -127,6 +126,7 @@ void loop() {
       digitalWrite(ledPinG, LOW);
       digitalWrite(ledPinR, LOW);
       isLightOn = false;
+      isMotionTracked = false;
     }
   }
 
