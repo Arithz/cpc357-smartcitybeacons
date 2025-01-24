@@ -9,30 +9,49 @@ import {
   LineChart,
 } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
-import apiFetch from "@/lib/fetch";
-import { useState, useEffect } from "react";
+import { ProcessRainfallMotionCorrelation } from "@/data/processed-data";
 
-export default function RainfaillMotionCorrelation() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    apiFetch.get("rainfallMotionCorrelationData").then((data) => {
-      setData(data);
-    });
-  }, []);
-
+export default function RainfaillMotionCorrelation({
+  data,
+}: {
+  data: ProcessRainfallMotionCorrelation[];
+}) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>Rainfall & Motion Correlation</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" />
-            <YAxis yAxisId="left" />
-            <YAxis yAxisId="right" orientation="right" />
+            <XAxis
+              dataKey="time"
+              label={{
+                value: "Time",
+                position: "insideBottomRight",
+                offset: -5,
+              }}
+            />
+            <YAxis
+              yAxisId="left"
+              label={{
+                value: "Rainfall",
+                angle: -90,
+                position: "insideLeft",
+                offset: 20,
+              }}
+            />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              label={{
+                value: "Motions",
+                angle: 90,
+                position: "insideRight",
+                offset: 10,
+              }}
+            />
             <Tooltip />
             <Legend />
             <Line

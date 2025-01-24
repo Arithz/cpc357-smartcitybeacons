@@ -1,16 +1,20 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
-import { Progress } from "@/components/ui/progress";
+import { ProcessLiveSystemStatus } from "@/data/processed-data";
 
-export default function LiveSystemStatus() {
-  const [motionDetected, setMotionDetected] = useState(true);
-  const [rainDetected, setRainDetected] = useState(false);
-
-  const [motionCount, setMotionCount] = useState(42);
-  const [lastRainfall, setLastRainfall] = useState("2 days ago");
-  const [brightness, setBrightness] = useState(75);
-  const [totalEnergy, setTotalEnergy] = useState(120);
+export default function LiveSystemStatus({
+  data,
+}: {
+  data: ProcessLiveSystemStatus;
+}) {
+  const {
+    is_motion_detected,
+    is_raining,
+    temperature,
+    brightness,
+    motions_detected_today,
+    last_rainfall,
+  } = data;
 
   return (
     <Card className="col-span-2">
@@ -22,33 +26,39 @@ export default function LiveSystemStatus() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span>Motion Detected:</span>
-              <Badge variant={motionDetected ? "default" : "secondary"}>
-                {motionDetected ? "Yes" : "No"}
+              <Badge variant={is_motion_detected ? "default" : "secondary"}>
+                {is_motion_detected ? "Yes" : "No"}
               </Badge>
             </div>
             <div className="flex items-center justify-between">
               <span>Rain Detected:</span>
-              <Badge variant={rainDetected ? "default" : "secondary"}>
-                {rainDetected ? "Yes" : "No"}
+              <Badge variant={is_raining ? "default" : "secondary"}>
+                {is_raining ? "Yes" : "No"}
               </Badge>
             </div>
             <div className="flex items-center justify-between">
               <span>Light Brightness:</span>
-              <Progress value={brightness} className="w-1/2" />
+              <div className="flex items-center space-x-2">
+                {brightness === 0 && <Badge variant="destructive">Off</Badge>}
+                {brightness === 1 && <Badge variant="default">Medium</Badge>}
+                {brightness === 2 && (
+                  <Badge className="bg-green-500 text-white">High</Badge>
+                )}
+              </div>
             </div>
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span>Motions Detected Today:</span>
-              <span className="font-bold">{motionCount}</span>
+              <span className="font-bold">{motions_detected_today}</span>
             </div>
             <div className="flex items-center justify-between">
               <span>Last Rainfall:</span>
-              <span className="font-bold">{lastRainfall}</span>
+              <span className="font-bold">{last_rainfall}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Total Energy Used:</span>
-              <span className="font-bold">{totalEnergy} kWh</span>
+              <span>Temperature:</span>
+              <span className="font-bold">{temperature}°C</span>
             </div>
           </div>
         </div>

@@ -9,22 +9,17 @@ import {
   BarChart,
 } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
-import apiFetch from "@/lib/fetch";
-import { useState, useEffect } from "react";
+import { ProcessRainfallIntensity } from "@/data/processed-data";
 
-export default function RainfallIntensity() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    apiFetch.get("rainfallIntensityData").then((data) => {
-      setData(data);
-    });
-  }, []);
-
+export default function RainfallIntensity({
+  data,
+}: {
+  data: ProcessRainfallIntensity[];
+}) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Rainfall Intensity</CardTitle>
+        <CardTitle>Rainfall Count Detected</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={200}>
