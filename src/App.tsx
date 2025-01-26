@@ -14,8 +14,11 @@ import {
   ProcessStreetlightBrightness,
 } from "./data/processed-data";
 import { processAllData } from "./lib/process";
+import { checkToken } from "./lib/auth";
+import { LoginForm } from "./components/login-form";
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
   const [data, setData] = useState([] as DataResponse[]);
 
   const [liveSystemStatusData, setLiveSystemStatusData] = useState(
@@ -52,9 +55,13 @@ function App() {
       setLiveSystemStatusData(processedData.liveSystemStatus);
     };
 
-    // Initial fetch and process
-    fetchData();
-    processData();
+    (async () => {
+      if (!(await checkToken())) return;
+
+      setIsLogin(true);
+      await fetchData();
+      processData();
+    })();
 
     // Set up interval to fetch data every 2 seconds
     const intervalId = setInterval(() => {
@@ -65,6 +72,14 @@ function App() {
     // Cleanup interval on unmount
     return () => clearInterval(intervalId);
   }, [data]); // Re-run whenever `data` is updated
+
+  if (!isLogin) {
+    return (
+      <div className="w-screen h-screen flex flex-col items-center justify-center">
+        <LoginForm className="w-full max-w-md" setIsLogin={setIsLogin} />
+      </div>
+    );
+  }
 
   return (
     <>
